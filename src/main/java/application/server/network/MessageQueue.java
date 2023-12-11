@@ -1,7 +1,24 @@
 package application.server.network;
 
-public class MessageQueue {
-    public void append(MessageWrapper wrapper) {
+import java.util.ArrayList;
+import java.util.List;
 
+public class MessageQueue {
+    private List<MessageWrapper> queue = new ArrayList<MessageWrapper>();
+
+    public synchronized void append(MessageWrapper wrapper) {
+        queue.add(wrapper);
+        notify();
+    }
+
+    public MessageWrapper remove(){
+        if(queue.isEmpty()){
+            try {
+                wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        return queue.remove(0);
     }
 }

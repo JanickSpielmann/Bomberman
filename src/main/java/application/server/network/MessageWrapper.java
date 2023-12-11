@@ -10,4 +10,12 @@ public class MessageWrapper {
         this.message = message;
         this.connectionId = connectionId;
     }
+
+    public ClientMessage getMessage() {
+        return message;
+    }
+
+    public String getConnectionId() {
+        return connectionId;
+    }
 }
