@@ -1,5 +1,6 @@
 package application.server.control;
 
+import application.server.model.Game;
 import application.server.network.MessageEntry;
 import application.server.network.MessageQueue;
 import network.server.Server;
@@ -15,7 +16,8 @@ public class BombermanServer {
         MessageQueue queue = new MessageQueue();
         MessageEntry entry = new MessageEntry(queue);
         Server server = new ServerStub(entry);
-        ControllerFactory controllerFactory = new ControllerFactory(server);
+        Game game = new Game();
+        ControllerFactory controllerFactory = new ControllerFactory(server, game);
         Dispatcher dispatcher = new Dispatcher(queue, controllerFactory);
     }
 }
