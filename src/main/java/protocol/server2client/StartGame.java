@@ -3,7 +3,7 @@ package protocol.server2client;
 import network.Message;
 
 /**
- * Diese Meldung wird vom Server an alle Clients gesendet, sobald gen�gend Spieler angemeldet
+ * Diese Meldung wird vom Server an alle Clients gesendet, sobald genugend Spieler angemeldet
  * sind und das Spiel los geht.
  * 
  * @author Andres Scheidegger

@@ -4,15 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MessageQueue {
-    private List<MessageWrapper> queue = new ArrayList<MessageWrapper>();
+    private List<MessageWrapper> queue = new ArrayList<>();
 
     public synchronized void append(MessageWrapper wrapper) {
         queue.add(wrapper);
         notify();
     }
 
-    public MessageWrapper remove(){
-        if(queue.isEmpty()){
+    public synchronized MessageWrapper remove() {
+        if (queue.isEmpty()) {
             try {
                 wait();
             } catch (InterruptedException e) {
