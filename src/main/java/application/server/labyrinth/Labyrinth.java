@@ -1,6 +1,12 @@
 package application.server.labyrinth;
 
 import application.server.labyrinth.tile.Tile;
+import application.server.labyrinth.tile.TileOccupation;
+import application.server.model.Bomb;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class Labyrinth {
 
@@ -19,9 +25,20 @@ public class Labyrinth {
         this.height = height;
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
-                this.tiles[x][y] = new Tile();
+                this.tiles[x][y] = new Tile(x, y);
             }
         }
+    }
+
+    private List<Tile> getAllTiles() {
+
+        List<Tile> tileList = new ArrayList<>();
+        for (Tile[] tile : tiles) {
+            tileList.addAll(Arrays.asList(tile).subList(0, tiles[0].length));
+        }
+
+        return tileList;
+
     }
 
     public int getWidth() {
@@ -36,7 +53,7 @@ public class Labyrinth {
         return tiles[x - 1][y - 1];
     }
 
-    public char[][] getCharMap(){
+    public char[][] getCharMap() {
         char[][] map = new char[tiles.length][tiles[0].length];
         for (int x = 0; x < tiles.length; x++) {
             for (int y = 0; y < tiles[0].length; y++) {
@@ -46,7 +63,19 @@ public class Labyrinth {
         return map;
     }
 
-    public boolean isTileEmpty(int x, int y){
+    public boolean isTileEmpty(int x, int y) {
         return tiles[x][y].isEmpty();
+    }
+
+    public void dropBomb(int x, int y) {
+        tiles[x][y].setOccupation(TileOccupation.BOMB);
+    }
+
+    public void bombExploded(Bomb bomb) {
+        for (Tile tile : getAllTiles()) {
+            if (bomb.checkIfHit(tile.getX(), tile.getY())) {
+                tile.hit();
+            }
+        }
     }
 }

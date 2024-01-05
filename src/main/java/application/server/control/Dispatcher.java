@@ -30,8 +30,7 @@ public class Dispatcher extends Thread {
             } else if (message instanceof MovePlayer) {
                 controller = controllerFactory.createMovePlayerController();
                 controller.handleMessage(message, connectionId);
-
-            }else if (message instanceof DropBomb) {
+            } else if (message instanceof DropBomb) {
                 controller = controllerFactory.createDropBombController();
                 controller.handleMessage(message, connectionId);
             }

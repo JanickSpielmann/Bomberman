@@ -4,28 +4,28 @@ import network.Message;
 import protocol.server2client.PlayerJoined;
 
 public class Player {
-    private String name;
-
-    private String connectionId;
+    private final String name;
+    private final String connectionId;
     private int x;
     private int y;
-
-    public Player(String name, String connectionId) {
-        this.name = name;
-        this.connectionId = connectionId;
-        x = 0;
-        y = 0;
-    }
+    private boolean alive;
+    private int score;
 
     public Player(String name, String connectionId, int[] position) {
         this.name = name;
         this.connectionId = connectionId;
         this.x = position[0];
         this.y = position[1];
+        score = 0;
+        alive = true;
     }
 
     public boolean isYourName(String playerName) {
         return name.equals(playerName);
+    }
+
+    public String getName() {
+        return name;
     }
 
     public Message createPlayerJoined() {
@@ -34,10 +34,6 @@ public class Player {
 
     public String getConnectionId() {
         return connectionId;
-    }
-
-    public void setConnectionId(String connectionId) {
-        this.connectionId = connectionId;
     }
 
     public int getX() {
@@ -55,4 +51,21 @@ public class Player {
     public void setY(int y) {
         this.y = y;
     }
+
+    public void kill() {
+        score += 10;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public void die() {
+        alive = false;
+    }
+
+    public boolean isAlive() {
+        return alive;
+    }
+
 }

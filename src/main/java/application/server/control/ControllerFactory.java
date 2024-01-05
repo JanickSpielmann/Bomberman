@@ -15,9 +15,12 @@ public class ControllerFactory {
     public Controller createJoinGameController() {
         return new JoinGameController(server, game);
     }
+
     public Controller createMovePlayerController() {
         return new MovePlayerController(server, game);
-    } public Controller createDropBombController() {
+    }
+
+    public Controller createDropBombController() {
         return new DropBombController(server, game);
     }
 }

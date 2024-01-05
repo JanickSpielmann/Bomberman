@@ -1,13 +1,17 @@
 package application.server.labyrinth.tile;
 
-
 public class Tile {
+
+    private final int x;
+    private final int y;
 
     private TileType type;
 
     private TileOccupation occupation;
 
-    public Tile() {
+    public Tile(int x, int y) {
+        this.x = x;
+        this.y = y;
         this.type = TileType.FREE;
     }
 
@@ -34,5 +38,23 @@ public class Tile {
 
     public boolean isEmpty() {
         return this.type == TileType.FREE && this.occupation == null;
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public boolean hit() {
+
+        if (this.type == TileType.DESTRUCTIBLE) {
+            this.type = TileType.FREE;
+            return true;
+        }
+        return false;
+
     }
 }

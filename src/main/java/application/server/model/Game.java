@@ -1,16 +1,19 @@
 package application.server.model;
 
 import application.server.labyrinth.Labyrinth;
-import application.server.labyrinth.tile.TileType;
 import protocol.Direction;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class Game {
     private static final int NB_OF_PLAYERS = 4;
-    private List<Player> players = new ArrayList<Player>();
+    private List<Player> players = new ArrayList<>();
+
+    private List<Bomb> bombs = new ArrayList<>();
 
     private Labyrinth labyrinth;
     private boolean isRunning = false;
@@ -74,6 +77,14 @@ public class Game {
         return players;
     }
 
+    public List<Bomb> getBombs() {
+        return bombs;
+    }
+
+    public Bomb getLastBomb() {
+        return bombs.getLast();
+    }
+
     private Player getPlayerByName(String playerName) {
         for (Player player : players) {
             if (player.isYourName(playerName)) {
@@ -81,5 +92,67 @@ public class Game {
             }
         }
         return null;
+    }
+
+    public String dropBomb(String name, int x, int y) {
+        Bomb newBomb = new Bomb("bomb_" + bombs.size(), x, y);
+        bombs.add(newBomb);
+        // new Timer
+        // -> callback: newBomb.explode()
+        // -> controller.broadcastNewExplosion(x, y)
+        labyrinth.dropBomb(x, y);
+        return newBomb.getId();
+    }
+
+    public boolean bombTimer(Bomb bomb) {
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                if (!bomb.isExploded()) {
+                    bomb.explode();
+                }
+            }
+        }, 2000);
+
+        return true;
+    }
+
+    public List<String> checkPlayerHit(Bomb bomb) {
+
+        List<String> hitPlayers = new ArrayList<>();
+
+        for (Player player : players) {
+            if (bomb.checkIfHit(player.getX(), player.getY())) {
+                hitPlayers.add(player.getName());
+            }
+        }
+        return hitPlayers;
+    }
+
+    public void updateLabyrinth(Bomb bomb) {
+        labyrinth.bombExploded(bomb);
+    }
+
+    public Bomb getBombById(String id) {
+
+        return bombs.stream().filter(bomb -> bomb.getId().equals(id)).findFirst().get();
+
+    }
+
+    public void logScore(String playerName) {
+        for (Player player : players) {
+            if (player.isYourName(playerName)) {
+                player.kill();
+            }
+        }
+    }
+
+    public void killPlayer(String playerName) {
+        for (Player player : players) {
+            if (player.isYourName(playerName)) {
+                player.die();
+            }
+        }
     }
 }
