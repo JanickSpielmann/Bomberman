@@ -34,7 +34,6 @@ public class ServerStub extends Server {
       @Override
       public void run() {
         deliverMessagesToServer();
-          return false;
       }
     };
     clientThread.start();

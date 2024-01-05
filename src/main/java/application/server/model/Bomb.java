@@ -1,10 +1,9 @@
 package application.server.model;
 
 public class Bomb {
+    private final String id;
     private int x;
     private int y;
-
-    private final String id;
     private boolean exploded;
 
     public Bomb(String id, int x, int y) {
@@ -39,7 +38,6 @@ public class Bomb {
     }
 
     public boolean checkIfHit(int x, int y) {
-
         if (x < this.x + 1 && x > this.x - 1) {
             return y < this.y + 1 && y > this.y - 1;
         }

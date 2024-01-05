@@ -1,12 +1,14 @@
 package application.server.labyrinth;
 
-import application.server.labyrinth.tile.Tile;
-import application.server.labyrinth.tile.TileOccupation;
-import application.server.model.Bomb;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import application.server.labyrinth.tile.Tile;
+import application.server.model.Bomb;
+
+import static application.server.labyrinth.tile.TileOccupation.BOMB;
+import static application.server.labyrinth.tile.TileType.FREE;
 
 public class Labyrinth {
 
@@ -64,14 +66,19 @@ public class Labyrinth {
     }
 
     public boolean isTileEmpty(int x, int y) {
-        return tiles[x][y].isEmpty();
+        if (tiles.length > x && tiles[0].length > y && x >= 0 && y >= 0) {
+            return tiles[x][y].isEmpty();
+        } else
+            return false;
     }
 
     public void dropBomb(int x, int y) {
-        tiles[x][y].setOccupation(TileOccupation.BOMB);
+        tiles[x][y].setOccupation(BOMB);
     }
 
     public void bombExploded(Bomb bomb) {
+        tiles[bomb.getX()][bomb.getY()].setOccupation(null);
+        tiles[bomb.getX()][bomb.getY()].setType(FREE);
         for (Tile tile : getAllTiles()) {
             if (bomb.checkIfHit(tile.getX(), tile.getY())) {
                 tile.hit();

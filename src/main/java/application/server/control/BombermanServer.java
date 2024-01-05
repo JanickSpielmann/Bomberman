@@ -9,10 +9,6 @@ import network.server.ServerStub;
 
 public class BombermanServer {
 
-    public static void main(String[] args) {
-        new BombermanServer();
-    }
-
     private BombermanServer() {
         MessageQueue queue = new MessageQueue();
         MessageEntry entry = new MessageEntry(queue);
@@ -22,5 +18,9 @@ public class BombermanServer {
         ControllerFactory controllerFactory = new ControllerFactory(server, game);
         Dispatcher dispatcher = new Dispatcher(queue, controllerFactory);
         dispatcher.start();
+    }
+
+    public static void main(String[] args) {
+        new BombermanServer();
     }
 }

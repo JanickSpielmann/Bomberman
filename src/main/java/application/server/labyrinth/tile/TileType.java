@@ -1,7 +1,7 @@
 package application.server.labyrinth.tile;
 
 public enum TileType {
-    
+
     FREE('f'),
     DESTRUCTIBLE('d'),
     INDESTRUCTIBLE('i');

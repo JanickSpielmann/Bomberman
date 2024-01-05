@@ -14,7 +14,7 @@ public class MovePlayerController extends Controller {
 
     @Override
     public void handleMessage(ClientMessage message, String connectionId) {
-        MovePlayer playerMessage = (MovePlayer) message; // TODO Not safe -> ask Miguel
+        MovePlayer playerMessage = (MovePlayer) message;
         if (game.isMovePossible(message.getPlayerName(), playerMessage.getDirection())) {
             game.movePlayer(message.getPlayerName(), playerMessage.getDirection());
             server.broadcast(new PlayerMoved(message.getPlayerName(), playerMessage.getDirection()));

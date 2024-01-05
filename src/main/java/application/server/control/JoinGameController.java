@@ -27,8 +27,7 @@ public class JoinGameController extends Controller {
             Message response = player.createPlayerJoined();
             server.broadcast(response);
             if (game.numberOfPlayersComplete()) {
-                response = new StartGame(game.getLabyrinth().getCharMap());
-                server.broadcast(response);
+                server.broadcast(new StartGame(game.getLabyrinth().getCharMap()));
             }
         }
     }

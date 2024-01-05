@@ -21,4 +21,12 @@ public class MessageQueue {
         }
         return queue.remove(0);
     }
+
+    public int size() {
+        return queue.size();
+    }
+
+    public MessageWrapper get(int i) {
+        return queue.get(i);
+    }
 }

@@ -8,7 +8,6 @@ public class MessageEntry implements ServerApplicationInterface {
     private MessageQueue messageQueue;
 
     public MessageEntry(MessageQueue messageQueue) {
-
         this.messageQueue = messageQueue;
     }
 

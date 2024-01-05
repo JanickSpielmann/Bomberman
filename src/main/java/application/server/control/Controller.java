@@ -13,9 +13,6 @@ public abstract class Controller {
         this.game = game;
     }
 
-
-
-
     public abstract void handleMessage(ClientMessage message, String connectionId);
 
 }

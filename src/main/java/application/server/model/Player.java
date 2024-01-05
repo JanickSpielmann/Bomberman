@@ -56,10 +56,6 @@ public class Player {
         score += 10;
     }
 
-    public int getScore() {
-        return score;
-    }
-
     public void die() {
         alive = false;
     }
@@ -68,4 +64,7 @@ public class Player {
         return alive;
     }
 
+    public int getScore() {
+        return score;
+    }
 }

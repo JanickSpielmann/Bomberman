@@ -1,22 +1,22 @@
 package application.server.model;
 
-import application.server.labyrinth.Labyrinth;
-import protocol.Direction;
-
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import application.server.labyrinth.Labyrinth;
+import protocol.Direction;
+
 public class Game {
     private static final int NB_OF_PLAYERS = 4;
+    Random random = new Random();
     private List<Player> players = new ArrayList<>();
-
     private List<Bomb> bombs = new ArrayList<>();
-
     private Labyrinth labyrinth;
-    private boolean isRunning = false;
 
     public Game(Labyrinth labyrinth) {
         this.labyrinth = labyrinth;
@@ -42,7 +42,6 @@ public class Game {
     }
 
     private int[] getRandomPosition() {
-        Random random = new Random();
         return new int[] { random.nextInt(1, labyrinth.getWidth() + 1), random.nextInt(1, labyrinth.getHeight() + 1) };
     }
 
@@ -58,31 +57,22 @@ public class Game {
             case RIGHT -> labyrinth.isTileEmpty(getPlayerByName(playerName).getX() + 1,
                     getPlayerByName(playerName).getY());
         };
+
     }
 
     public void movePlayer(String playerName, Direction direction) {
+
         switch (direction) {
             case UP -> getPlayerByName(playerName).setY(getPlayerByName(playerName).getY() - 1);
             case DOWN -> getPlayerByName(playerName).setY(getPlayerByName(playerName).getY() + 1);
             case LEFT -> getPlayerByName(playerName).setX(getPlayerByName(playerName).getX() - 1);
             case RIGHT -> getPlayerByName(playerName).setX(getPlayerByName(playerName).getX() + 1);
         }
+
     }
 
     public Labyrinth getLabyrinth() {
         return labyrinth;
-    }
-
-    public List<Player> getPlayers() {
-        return players;
-    }
-
-    public List<Bomb> getBombs() {
-        return bombs;
-    }
-
-    public Bomb getLastBomb() {
-        return bombs.getLast();
     }
 
     private Player getPlayerByName(String playerName) {
@@ -94,12 +84,9 @@ public class Game {
         return null;
     }
 
-    public String dropBomb(String name, int x, int y) {
+    public String dropBomb(int x, int y) {
         Bomb newBomb = new Bomb("bomb_" + bombs.size(), x, y);
         bombs.add(newBomb);
-        // new Timer
-        // -> callback: newBomb.explode()
-        // -> controller.broadcastNewExplosion(x, y)
         labyrinth.dropBomb(x, y);
         return newBomb.getId();
     }
@@ -154,5 +141,35 @@ public class Game {
                 player.die();
             }
         }
+    }
+
+    public boolean checkIfRunning() {
+        int i = 0;
+        for (Player player : players) {
+            if (player.isAlive()) {
+                i++;
+            }
+        }
+        return i > 1;
+    }
+
+    public String getWinner() {
+        Player winner = players.getFirst();
+        for (Player player : players) {
+            if (player.getScore() > winner.getScore()) {
+
+                winner = player;
+            }
+        }
+        return winner.getName();
+    }
+
+    public String[] getScoreboard() {
+        String[] scoreboard = new String[players.size()];
+        Collections.sort(players, Comparator.comparingInt(Player::getScore));
+        for (int i = 0; i < scoreboard.length; i++) {
+            scoreboard[i] = players.get(i).getScore() + ": " + players.get(i).getName();
+        }
+        return scoreboard;
     }
 }
