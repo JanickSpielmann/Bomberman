@@ -15,7 +15,7 @@ import network.server.ServerImplementation;
 public class BombermanServer {
 
     public static void main(String[] args) {
-        new BombermanServer();
+        new BombermanServer(); // Edit IP-address in package network.client.ServerProxyImpl to your local ip
     }
 
     private BombermanServer() {

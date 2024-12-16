@@ -15,7 +15,7 @@ public class ServerProxyImpl extends ServerProxy {
 
     public ServerProxyImpl(ClientApplicationInterface ci) {
         super(ci);
-        hostName = "192.168.xxx.xxx"; // IP address of the server
+        hostName = "192.168.1.220"; // IP address of the server
         port = 8080;
         try {
             socket = new Socket(hostName, port);
