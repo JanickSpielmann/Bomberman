@@ -1,10 +1,10 @@
 package network.client;
 
-import network.Message;
-
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+
+import network.Message;
 
 public class ServerProxyImpl extends ServerProxy {
 
@@ -15,7 +15,7 @@ public class ServerProxyImpl extends ServerProxy {
 
     public ServerProxyImpl(ClientApplicationInterface ci) {
         super(ci);
-        hostName = "localhost";
+        hostName = "192.168.xxx.xxx"; // IP address of the server
         port = 8080;
         try {
             socket = new Socket(hostName, port);
@@ -36,4 +36,3 @@ public class ServerProxyImpl extends ServerProxy {
         }
     }
 }
-

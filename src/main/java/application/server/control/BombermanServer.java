@@ -14,11 +14,15 @@ import network.server.ServerImplementation;
 
 public class BombermanServer {
 
+    public static void main(String[] args) {
+        new BombermanServer();
+    }
+
     private BombermanServer() {
         MessageQueue queue = new MessageQueue();
         MessageEntry entry = new MessageEntry(queue);
         Server server = new ServerImplementation(entry);
-        Labyrinth labyrinth = loadLabyrint(2);
+        Labyrinth labyrinth = loadLabyrint(1);
         Game game = new Game(labyrinth);
         ControllerFactory controllerFactory = new ControllerFactory(server, game);
         Dispatcher dispatcher = new Dispatcher(queue, controllerFactory);
@@ -40,9 +44,5 @@ public class BombermanServer {
             e.printStackTrace();
         }
         return labyrinth;
-    }
-
-    public static void main(String[] args) {
-        new BombermanServer();
     }
 }

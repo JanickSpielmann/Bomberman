@@ -55,7 +55,7 @@ public class Player {
     }
 
     public void kill() {
-        score += 10;
+        score += 1;
     }
 
     public void die() {
